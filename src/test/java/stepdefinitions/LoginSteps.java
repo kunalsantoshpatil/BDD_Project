@@ -50,7 +50,7 @@ public class LoginSteps {
         String screenshotPath = ScreenshotUtil.takeScreenshot(driver, scenario.getName());
 
         // Relative path from Spark.html which is in "Report/"
-        String relativePath = "/Screenshots/" + screenshotPath; // because screenshot is in root/Screenshots
+        String relativePath = "../" + screenshotPath; // because screenshot is in root/Screenshots
 
         if (scenario.isFailed()) {
             ExtentCucumberAdapter.addTestStepLog("❌ Test Failed: " + scenario.getName());
