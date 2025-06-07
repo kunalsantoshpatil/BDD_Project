@@ -14,6 +14,7 @@ import io.cucumber.java.en.*;
 import pages.LoginPage;
 import utilities.ScreenshotUtil;
 
+import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 
 public class LoginSteps {
@@ -54,6 +55,7 @@ public class LoginSteps {
 
         if (scenario.isFailed()) {
             ExtentCucumberAdapter.addTestStepLog("❌ Test Failed: " + scenario.getName());
+            MediaEntityBuilder.createScreenCaptureFromBase64String(relativePath);
         } else {
             ExtentCucumberAdapter.addTestStepLog("✅ Test Passed: " + scenario.getName());
         }
