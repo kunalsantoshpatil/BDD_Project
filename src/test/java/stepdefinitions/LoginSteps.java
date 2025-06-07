@@ -1,8 +1,5 @@
 package stepdefinitions;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -15,7 +12,6 @@ import io.cucumber.java.en.*;
 import pages.LoginPage;
 import utilities.ScreenshotUtil;
 
-import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 
 public class LoginSteps {
@@ -24,14 +20,12 @@ public class LoginSteps {
 
     @Before
     public void setUp() {
-    	ChromeOptions options = new ChromeOptions();
-        
-        // Headless mode with screenshot support
-        options.addArguments("--headless=new");  // Use `--headless=new` for latest Chrome
-        options.addArguments("--disable-gpu");   // Recommended for Windows
-        options.addArguments("--window-size=1920,1080"); // Important for screenshot rendering
-        options.addArguments("--no-sandbox");    // For Jenkins/Linux environments
-        options.addArguments("--disable-dev-shm-usage"); // For Jenkins/Linux environments
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless=new");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--window-size=1920,1080");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
     }
@@ -45,7 +39,7 @@ public class LoginSteps {
 
     @When("User enters valid email and password")
     public void enter_valid_credentials() {
-        loginPage.enterCredentials("testuser@example.com", "test123"); // Use valid creds
+        loginPage.enterCredentials("testuser@example.com", "test123");
         loginPage.clickLogin();
     }
 
@@ -57,26 +51,20 @@ public class LoginSteps {
 
     @After
     public void tearDown(io.cucumber.java.Scenario scenario) {
-        String screenshotPath = ScreenshotUtil.takeScreenshot(driver, scenario.getName());
-
-        // Relative path from Spark.html which is in "Report/"
-        String relativePath = "../" + screenshotPath; // because screenshot is in root/Screenshots
+        // Always capture screenshot
+        String base64Screenshot = ScreenshotUtil.takeScreenshotBase64(driver);
 
         if (scenario.isFailed()) {
             ExtentCucumberAdapter.addTestStepLog("❌ Test Failed: " + scenario.getName());
-            ExtentCucumberAdapter.getCurrentStep().fail("Screenshot",
-			    MediaEntityBuilder.createScreenCaptureFromPath(relativePath).build());
-
         } else {
             ExtentCucumberAdapter.addTestStepLog("✅ Test Passed: " + scenario.getName());
         }
 
-        // Embed screenshot manually
+        // Embed screenshot directly as Base64 (CSP safe for Jenkins)
         ExtentCucumberAdapter.addTestStepLog(
-            "<a href='" + relativePath + "' target='_blank'>📸 Screenshot</a><br><img src='" + relativePath + "' height='300'/>"
+            "<img src='data:image/png;base64," + base64Screenshot + "' height='300' />"
         );
 
         driver.quit();
     }
-
 }
