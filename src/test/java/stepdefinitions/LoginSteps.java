@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 
 import io.cucumber.java.After;
@@ -23,7 +24,15 @@ public class LoginSteps {
 
     @Before
     public void setUp() {
-        driver = new ChromeDriver();
+    	ChromeOptions options = new ChromeOptions();
+        
+        // Headless mode with screenshot support
+        options.addArguments("--headless=new");  // Use `--headless=new` for latest Chrome
+        options.addArguments("--disable-gpu");   // Recommended for Windows
+        options.addArguments("--window-size=1920,1080"); // Important for screenshot rendering
+        options.addArguments("--no-sandbox");    // For Jenkins/Linux environments
+        options.addArguments("--disable-dev-shm-usage"); // For Jenkins/Linux environments
+        driver = new ChromeDriver(options);
         driver.manage().window().maximize();
     }
 
