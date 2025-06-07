@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extentreports>
+	<configuration>
+
+		<!-- Report Name and Title -->
+		<reportName>BDD Automation Execution Report</reportName>
+		<documentTitle>Automation Test Report</documentTitle>
+
+		<!-- Theme: standard or dark -->
+		<theme>standard</theme>
+
+		<!-- Encoding for special characters -->
+		<encoding>utf-8</encoding>
+
+		<!-- Set timeline on or off -->
+		<timelineEnabled>true</timelineEnabled>
+
+		<!-- Set chart location: top, bottom -->
+		<chartLocation>top</chartLocation>
+
+		<!-- Set protocol to file to allow relative paths like
+		"Screenshots/img.png" -->
+		<protocol>file</protocol>
+
+		<!-- Set date/time format -->
+		<timeStampFormat>dd-MM-yyyy HH:mm:ss</timeStampFormat>
+
+		<!-- Enable offline mode to embed CSS/JS instead of loading from CDN -->
+		<offlineMode>true</offlineMode>
+
+		<!-- Custom CSS (Optional) -->
+		<!--
+    <styles>
+      .badge-primary { background-color: #3f51b5; }
+    </styles>
+    -->
+
+		<!-- Custom JavaScript (Optional) -->
+		<!--
+    <scripts>
+      console.log('Extent Report Loaded');
+    </scripts>
+    -->
+
+	</configuration>
+</extentreports>
