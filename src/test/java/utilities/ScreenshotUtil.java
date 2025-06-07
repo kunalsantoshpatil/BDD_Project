@@ -9,17 +9,28 @@ import java.io.IOException;
 public class ScreenshotUtil {
 
     public static String takeScreenshot(WebDriver driver, String scenarioName) {
-        
-    	TakesScreenshot ts = (TakesScreenshot) driver;
+        TakesScreenshot ts = (TakesScreenshot) driver;
         File src = ts.getScreenshotAs(OutputType.FILE);
 
-        String dest = "Screenshots/" + scenarioName.replaceAll(" ", "_") + "_" + System.currentTimeMillis() + ".png";
-        File destFile = new File(dest);
+        // Create Screenshots folder if not exists
+        String screenshotsDir = System.getProperty("user.dir") + "/Screenshots";
+        File folder = new File(screenshotsDir);
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+
+        // Build filename
+        String fileName = scenarioName.replaceAll("[^a-zA-Z0-9_-]", "_") + "_" + System.currentTimeMillis() + ".png";
+        String destPath = screenshotsDir + "/" + fileName;
+        File destFile = new File(destPath);
+
         try {
             FileUtils.copyFile(src, destFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return dest;
+
+        // Return relative path (from Spark.html in Report/)
+        return "Screenshots/" + fileName;
     }
 }

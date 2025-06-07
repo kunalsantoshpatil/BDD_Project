@@ -64,7 +64,9 @@ public class LoginSteps {
 
         if (scenario.isFailed()) {
             ExtentCucumberAdapter.addTestStepLog("❌ Test Failed: " + scenario.getName());
-            MediaEntityBuilder.createScreenCaptureFromBase64String(relativePath).build();
+            ExtentCucumberAdapter.getCurrentStep().fail("Screenshot",
+			    MediaEntityBuilder.createScreenCaptureFromPath(relativePath).build());
+
         } else {
             ExtentCucumberAdapter.addTestStepLog("✅ Test Passed: " + scenario.getName());
         }
